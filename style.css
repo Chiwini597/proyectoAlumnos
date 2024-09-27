@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #a2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #80ecdd;
+    box-shadow: 0 2px 4px rgba(231, 201, 201, 0.1);
+}
+
+h1 {
+    color: #051b2e;
+    font-family: Arial, sans-serif;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #c7e9e8;
+    border-radius: 4px;
+    font-family: Arial,;
+}
+
+button {
+    background-color: #f6f8fa;
+    color: #151616;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
