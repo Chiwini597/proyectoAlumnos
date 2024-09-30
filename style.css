@@ -1,42 +1,80 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #a2f2f2;
-    margin: 0;
-    padding: 0;
+    background-color: #f0f2f5;
+    font-family: 'Arial', sans-serif;
+}
+
+h1, h2, h3 {
+    color: #0056b3;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#formAlta input {
+    border-radius: 10px; 
+    border: 1px solid #17a2b8; 
+}
+
+#formAlta button {
+    background-color: #17a2b8; 
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+#formAlta button:hover {
+    background-color: #138496;
+}
+
+
+.table {
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+}
+
+.table th {
+    background-color: #17a2b8;
+    color: white;
+    font-weight: bold;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+#busqueda {
+    border-radius: 10px;
+    border: 1px solid #6c757d;
+}
+
+#btnBuscar, #btnOrdenarAsc, #btnOrdenarDesc {
+    font-weight: bold;
+    color: white;
+}
+
+#btnBuscar {
+    background-color: #6c757d;
+    border: none;
+}
+
+#btnBuscar:hover {
+    background-color: #5a6268;
+}
+
+#btnOrdenarAsc, #btnOrdenarDesc {
+    background-color: #007bff;
+    border: none;
+    margin-right: 10px;
+}
+
+#btnOrdenarAsc:hover, #btnOrdenarDesc:hover {
+    background-color: #0056b3;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #80ecdd;
-    box-shadow: 0 2px 4px rgba(231, 201, 201, 0.1);
-}
-
-h1 {
-    color: #051b2e;
-    font-family: Arial, sans-serif;
-}
-
-form {
-    margin-top: 20px;
-}
-
-input[type="text"],
-input[type="number"],
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #c7e9e8;
-    border-radius: 4px;
-    font-family: Arial,;
-}
-
-button {
-    background-color: #f6f8fa;
-    color: #151616;
-    font-family: Arial, sans-serif;
-    cursor: pointer;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }

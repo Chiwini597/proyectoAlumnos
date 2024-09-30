@@ -1,84 +1,125 @@
 class Alumnos {
-    constructor(nombre, apellido, edad, materia, calificacion){
+    constructor(nombre, apellido, edad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
-        this.materia = [materia]; 
-        this.calificacion = [calificacion]; 
+        this.materias = [];
+        this.calificaciones = [];
     }
 
-    inscribirMateria(materia) {
-        this.materia.push(materia);
-        this.calificacion.push(null);
+// Inscribir materia y asignar calificacion
+    inscribirMateria(materia, calificacion) {
+        this.materias.push(materia);
+        this.calificaciones.push(calificacion);
     }
-    
-    asignarCalificacion(materia, calificacion) {
-        const index = this.materia.indexOf(materia);
-        if (index !== -1) {
-            this.calificacion[index] = calificacion;
-        }
-    }
-}
 
-// Definimos el objeto alumno
-const alumno = {
-    alumno1: new Alumnos('Ximena', 'Oropeza','20', 'InglesII', '75'),
-    alumno2: new Alumnos('Pedro', 'Sanchez','22', 'Programacion', '80'),
-    alumno3: new Alumnos('Beatriz', 'Madero','24', 'Ingenieria', '85'),
-    alumno4: new Alumnos('Adriana', 'Ponton','21', 'Matematicas', '75'),
-    alumno5: new Alumnos('Luis', 'Martinez','28', 'Derecho', '90'),
-    alumno6: new Alumnos('Humberto', 'Mendoza','25', 'Historia', '85'),
-    alumno7: new Alumnos('Angel', 'Mondragon','24', 'Programacion', '75'),
-    alumno8: new Alumnos('Monica', 'Cortes','19', 'Ingenieria', '90'),
-    alumno9: new Alumnos('Fernando', 'Perez','18', 'Historia', '80'),
-    alumno10: new Alumnos('Alondra', 'Mendoza','26', 'InglesII', '75')
-};
-
-// Función para mostrar los alumnos en la tabla
-function getAlumnos(alumnos) {
-    console.log("Mostrando alumnos..."); // Depuración
-    const table = document.getElementById('alumnosTable'); // Asegúrate de que este ID coincida con el HTML
-    table.innerHTML = ''; // Limpiar la tabla antes de llenarla
-
-    // Recorremos los alumnos
-    for (const key in alumnos) {
-        if (alumnos.hasOwnProperty(key)) {
-            const alumno = alumnos[key];
-            console.log(`Agregando a ${alumno.nombre} ${alumno.apellido}`); // Depuración
-            
-            // Creamos la fila
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${alumno.nombre}</td>
-                <td>${alumno.apellido}</td>
-                <td>${alumno.edad}</td>
-                <td>${alumno.materia.join(', ')}</td>
-                <td>${alumno.calificacion.join(', ')}</td> 
-            `;
-            
-            // Agregamos la fila a la tabla
-            table.appendChild(fila);
-        }
+// Obtener el promedio de calificaciones
+    obtenerPromedio() {
+        if (this.calificaciones.length === 0) return 0;
+        const total = this.calificaciones.reduce((acc, curr) => acc + curr, 0);
+        return (total / this.calificaciones.length).toFixed(2);
     }
 }
 
-// Llamada inicial para mostrar todos los alumnos
-getAlumnos(alumno);
+// Clase para gestionar grupo de alumnos
+class Grupo {
+    constructor() {
+        this.alumnos = []; // Almacena los alumnos 
+    }
 
-// Agregamos un listener al formulario
+// Agregar un alumno al grupo
+    agregarAlumno(alumno) {
+        this.alumnos.push(alumno);
+    }
+
+// Buscar alumnos por nombre o apellido 
+    buscarPorNombreOApellido(termino) {
+        return this.alumnos.filter(alumno => 
+            alumno.nombre.toLowerCase().includes(termino.toLowerCase()) || 
+            alumno.apellido.toLowerCase().includes(termino.toLowerCase())
+        );
+    }
+
+// Ordenar a los alumnos por su promedio
+    ordenarAlumnosPorCalificacion(ascendente = true) {
+        return this.alumnos.slice().sort((a, b) => {
+            const promedioA = parseFloat(a.obtenerPromedio());
+            const promedioB = parseFloat(b.obtenerPromedio());
+            return ascendente ? promedioA - promedioB : promedioB - promedioA;
+        });
+    }
+}
+
+//Instancia de grupo para gestionar a los alumnos
+const grupo = new Grupo();
+
+//Funcion para mostrar alumnos en la tabla de HTML
+function mostrarAlumnos(alumnos) {
+    const tableBody = document.getElementById('alumnosTable');
+    tableBody.innerHTML = ''; // Limpiar tabla
+
+    alumnos.forEach(alumno => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${alumno.nombre}</td>
+            <td>${alumno.apellido}</td>
+            <td>${alumno.edad}</td>
+            <td>${alumno.materias.join(', ')}</td>
+            <td>${alumno.calificaciones.join(', ')}</td>
+            <td>${alumno.obtenerPromedio()}</td>
+        `;
+        tableBody.appendChild(fila);
+    });
+}
+
+//Evento para dar de alta un nuevo alumno 
 document.getElementById('formAlta').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evitamos que se recargue la página
-
+    event.preventDefault();
+ 
     const nombre = document.getElementById('Nombre').value;
     const apellido = document.getElementById('Apellido').value;
     const edad = document.getElementById('Edad').value;
+    const materia = document.getElementById('Materia').value;
+    const calificacion = parseFloat(document.getElementById('Calificacion').value);
 
-    // Aquí puedes agregar el nuevo alumno al objeto "alumno"
-    console.log(`Nuevo alumno: ${nombre} ${apellido} (${edad})`); // Depuración
+    if (nombre && apellido && edad && materia && !isNaN(calificacion)) {
+ // Crear nuevo alumno  
+    const nuevoAlumno = new Alumnos(nombre, apellido, edad);
+    nuevoAlumno.inscribirMateria(materia, calificacion);
 
-    // Luego, recargamos la tabla
-    getAlumnos(alumno);
+// Agregar alumno al grupo     
+    grupo.agregarAlumno(nuevoAlumno);
+
+// Mostrar los alumnos actualizados    
+    mostrarAlumnos(grupo.alumnos);
+
+ // Mostrar mensaje de éxito
+ alert(`Alumno ${nombre} ${apellido} ha sido agregado al grupo.`);
+} else {
+    alert("Por favor, completa todos los campos.");
+
+}  
+
+    // Limpiar el formulario 
+    document.getElementById('formAlta').reset();
 });
 
+// Evento para buscar alumnos por nombre o apellido 
+document.getElementById('btnBuscar').addEventListener('click', function() {
+    const termino = document.getElementById('busqueda').value;
+    const resultados = grupo.buscarPorNombreOApellido(termino);
+    mostrarAlumnos(resultados);
+});
 
+// Evento para ordenar alumnos por calificacion ascendente 
+document.getElementById('btnOrdenarAsc').addEventListener('click', function() {
+    const alumnosOrdenados = grupo.ordenarAlumnosPorCalificacion(true);
+    mostrarAlumnos(alumnosOrdenados);
+});
+
+// Evento para ordenar alumnos por calificacion ascendente 
+document.getElementById('btnOrdenarDesc').addEventListener('click', function() {
+    const alumnosOrdenados = grupo.ordenarAlumnosPorCalificacion(false);
+    mostrarAlumnos(alumnosOrdenados);
+});
 
